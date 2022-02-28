@@ -1,13 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
 import Search from './components/Search';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import searchService from './services/search';
-
+import InfoCard from './components/InfoCard';
 
 const App = () => {
   const [ query, setQuery ] = useState("")
-  const [results, setResults] = useState([])
+  const [results, setResults] = useState(
+    [
+      {
+        "title.romaji": "Mix",
+        "id": 103555,
+        "compa": 1.0
+      },
+      {
+        "title.romaji": "Major 2nd Season 2",
+        "id": 112302,
+        "compa": 0.8136652737
+      },
+      {
+        "title.romaji": "Major 2nd",
+        "id": 100306,
+        "compa": 0.8105891857
+      }
+    ])
+
 
 
   const handleClick = (event) => {
@@ -19,10 +36,11 @@ const App = () => {
     searchService
       .search(searchObject)
       .then(response => {
-        console.log(response.data.data)
-        setResults([...response.data.data])
+        console.log(response.data)
+        //setResults([...response.data])
         //setQuery('')
       })
+
     console.log('button clicked', event.target)
     //setResults([...results ,query])
     setQuery("")
@@ -40,15 +58,11 @@ const App = () => {
   return (
     <div>
       <p>Hello world</p>
-      <img src={logo} className="App-logo" alt="logo" />
       <Search query={query} handleQuery={handleQuery} onClick = {handleClick}/>
-      <ul>
-        {results.map(note => 
-          <li key={note}>
-            {note}
-          </li>
+        {results.map(media => 
+          <InfoCard title={media["title.romaji"]} compa={media.compa} id={media["id"]} key={media["title.romaji"]}/>
         )}
-      </ul>
+
     </div>
   )
 }
