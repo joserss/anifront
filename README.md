@@ -10,7 +10,8 @@ Frontend website for AniServ, an anime recommendation system.
 
 ## ToDo:
 - improve DataInfo component visuals
-- add anilist api's queries, using media id
+- [x] add anilist api's queries, using media id
 - add functionality to give recommendations based on user's anilist profile
+- revamp search function
 
 ### Done:

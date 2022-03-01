@@ -3,13 +3,14 @@ import React from 'react'
 
 const Search = ({query, handleQuery, onClick}) => {
     return (
-      <div>
-          <form onSubmit={onClick}>
-                <input 
+      <div class="box">
+          <form onSubmit={onClick} class=" is-flex is-flex-direction-row">
+                <input class="input"
                     value={query}
                     onChange={handleQuery}
+                    placeholder="Search Anime"
                 />
-                <button type="submit">save</button>
+                <button class="button" type="submit">Search</button>
             </form>   
       </div>
     )

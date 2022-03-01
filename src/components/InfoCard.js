@@ -3,12 +3,12 @@ import { useQuery } from "@apollo/client";
 import { DETAILS } from '../graphql/queries';
 import logo from '../logo.svg';
 import { useMediaQuery } from 'react-responsive'
-
+import 'bulma/css/bulma.min.css';
 
 const InfoCard = ({title, compa, id}) => {
-    // const { loading, error, data } = useQuery(DETAILS, {
-    //     variables: { animeId: id },
-    // });
+    const { loading, error, data } = useQuery(DETAILS, {
+        variables: { animeId: id },
+    });
     const isDesktopOrLaptop = useMediaQuery({
         query: '(min-width: 1224px)'
     })
@@ -19,16 +19,14 @@ const InfoCard = ({title, compa, id}) => {
 
     console.log(title, compa,id)
 
-    // if (loading) {
-    //     return (
-    //         <div>
-    //             {title} <br />
-    //             Compatibility: {compa.toFixed(2)*100}%
-    //             <br />
-    //             <img src={logo} className="App-logo" alt="logo" />
-    //         </div>
-    //     );
-    // }
+    if (loading) {
+        return (
+            <div>
+                <h1 class="title is-4">{title} </h1>
+                <progress class="progress is-small is-primary" max="100">15%</progress>
+            </div>
+        );
+    }
     
     // if (error) {
     //     console.log("error", error);
@@ -40,9 +38,9 @@ const InfoCard = ({title, compa, id}) => {
     //     );
     // }
     
-    //const media = data.Media;
+    const media = data.Media;
 
-    const media = {
+    const media2 = {
             "averageScore": 68,
             "bannerImage": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/103555-BvElzwYrkBPt.jpg",
             "title": {
@@ -204,7 +202,7 @@ const InfoCard = ({title, compa, id}) => {
           }
 
 
-
+    // const media = media2
 
 
 
@@ -233,16 +231,18 @@ const InfoCard = ({title, compa, id}) => {
     const textBox = {
         color:"gray",
         margin:5,
-        padding:5,
-        backgroundColor: media.coverImage.color + "20",
-        fontSize: isDesktopOrLaptop ? 16 : 14,
+        padding:10,
+        backgroundColor: media.coverImage.color + "30",
+        // fontSize: isDesktopOrLaptop ? 16 : 14,
+        borderRadius:3
     }
 
     const cover = {
-        width: isDesktopOrLaptop ? "10" : "30vw",
-        margin:3,
-        padding: 1,
-        borderRadius:3
+        // width: isDesktopOrLaptop ? "5" : "5",
+        width: isDesktopOrLaptop ? "10em" : "8em",
+        // margin:3,
+        // padding: 1,
+        borderRadius:10
     }
 
     const titleStyle = {
@@ -251,13 +251,27 @@ const InfoCard = ({title, compa, id}) => {
         fontStyle: 'italic',
         margin: "0 auto"
     }
-    const Image = () => <img src={media.coverImage.large} alt="Cover" style={cover} />
+
+
+    const Image = () => { return (
+      <figure  >        
+        <img   src={media.coverImage.large} alt="Cover" style={cover} />        
+      </figure>
+      
+
+
+
+
+    )}
+    
     
     const Info = () => {return (
-        <div style={header}>
-                <h1 style={titleStyle}>{title} </h1> 
-                Compatibility: {compa.toFixed(2)*100}%
-        </div> 
+        <>
+            <h1 class="title is-4">{title} </h1> 
+            <p>Compatibility: {compa.toFixed(2)*100}%</p>
+            <p>{media.seasonYear}</p>
+            <p>Rating: {media.averageScore}%</p>
+        </> 
     )}
 
     const TextBox = () => {
@@ -272,9 +286,21 @@ const InfoCard = ({title, compa, id}) => {
 
     const Mobile = () => {
         return(
-            <div>
+            <>
+              <div  class="is-flex is-flex-direction-row"   >
+              < div class="m-1" style={{}}> 
+                <Image />
+                </div>
+                <div class="container px-2"  style={{"flex":1}} >
+                  <Info />
+                </div>
+              </div >
+              <div clas="block">
+              <TextBox />
+              </div>
+              
                 
-            </div>
+            </>
 
 
         )
@@ -282,30 +308,9 @@ const InfoCard = ({title, compa, id}) => {
 
 
     return (
-      <div style={mainBox}>
-          <div >
-            {/* <img src={media.coverImage.large} alt="Girl in a jacket" style={cover} /> */}
-            <Image />
-
-          </div>
-          <div>
-            {/* <div style={header}>
-                <h1 style={titleStyle}>{title} </h1> 
-                Compatibility: {compa.toFixed(2)*100}%
-            </div>             */}
-            <Info />
-            <TextBox />
-            {/* <div style={textBox}>
-                <p>{media.description}</p>
-                <p> <a href={"https://anilist.co/anime/" + id}>Ver en Anilist</a></p>
-            </div> */}
-              
-          </div>
-
-
-
-
-         
+      <div class="box" style={{backgroundColor: media.coverImage.color + "50"}}>
+        <Mobile />
+                  
       </div>
     )
   }
