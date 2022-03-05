@@ -1,6 +1,7 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:5000/search'
+const baseUrl = '/api/search'
 //https://aniserv.onrender.com
+// 'http://localhost:5000/search'
 
 
 const search = newObject => {
