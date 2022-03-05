@@ -39,8 +39,18 @@ const App = () => {
     const searchObject = {
       title: query,
     }
-    const cosita = await searchService.search(searchObject)
-    setResults(cosita.data)
+
+    try {
+      const response = await searchService.search(searchObject)
+      setResults(response.data)
+      setToggle(true)
+    } catch (exception) {
+      alert("Title not in library. Try a different one.")
+      setQuery("")
+    }
+    setToggleLoad(false)
+    // const cosita = await searchService.search(searchObject)
+    // setResults(cosita.data)
     // searchService
     //   .search(searchObject)
     //   .then(response => {
@@ -51,13 +61,12 @@ const App = () => {
 
     console.log('button clicked', event.target)
     //setResults([...results ,query])
-    setToggleLoad(false)
-    setToggle(true)
+    // setToggleLoad(false)
+    // setToggle(true)
     // setQuery("")
   }
   
   const handleQuery = (event) => {
-    console.log(event.target.value)
     setQuery(event.target.value)
   }
 
