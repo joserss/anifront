@@ -79,7 +79,7 @@ const App = () => {
   const SubHeader = ({title}) => { return(
     <div class="is-flex is-justify-content-space-around is-align-items-center" >
       <p>
-        Results for <strong>{title}</strong>:
+        Results for <strong>{title}</strong>
       </p>
       <button class="button is-warning" onClick={handleReset}>Reset</button>
     
@@ -102,12 +102,13 @@ const App = () => {
           {toggle && <SubHeader title={query}/>}
           
         </div>
-        <div  class="container px-2">
+        <div  class="container px-2 is-align-items-center is-flex is-flex-direction-column">
         
           {toggleLoad && <Loading />}
           {results.map(media => 
             <InfoCard title={media["title.romaji"]} compa={media.compa} id={media["id"]} key={media["title.romaji"]}/>
           )}
+          {toggle && <button class="button is-warning" onClick={handleReset}>Reset</button>}
         </div>
       </div>
         

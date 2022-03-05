@@ -21,7 +21,7 @@ const InfoCard = ({title, compa, id}) => {
 
     if (loading) {
         return (
-            <div>
+            <div class="box">
                 <h1 class="title is-4">{title} </h1>
                 <progress class="progress is-small is-primary" max="100">15%</progress>
             </div>
@@ -295,7 +295,7 @@ const InfoCard = ({title, compa, id}) => {
                   <Info />
                 </div>
               </div >
-              <div clas="block">
+              <div class="block">
               <TextBox />
               </div>
               
