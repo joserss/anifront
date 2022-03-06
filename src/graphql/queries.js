@@ -1,4 +1,30 @@
-import { gql } from "@apollo/client";
+import { gql } from "@apollo/client"
+
+
+export const SEARCH = gql`
+query ($mediaToSearch: String!){
+    Page (page:1){
+      media(search:$mediaToSearch, type:ANIME){
+        title {
+         romaji
+        }
+        id
+        type
+        seasonYear
+        averageScore
+        coverImage{
+          large
+          color
+        }
+        genres
+      }
+    }
+  }
+`
+
+
+
+
 
 export const DETAILS = gql`
 query ($animeId: Int!) {
@@ -74,4 +100,4 @@ query ($animeId: Int!) {
   	}
   }
 }
-`;
+`
