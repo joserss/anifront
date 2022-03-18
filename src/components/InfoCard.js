@@ -6,7 +6,7 @@ import { DETAILS } from "../graphql/queries"
 import { useMediaQuery } from "react-responsive"
 import "bulma/css/bulma.min.css"
 
-const InfoCard = ({title, compa, id}) => {
+const InfoCard = ({title, compa, id, handleRecBut}) => {
 	const { loading, error, data } = useQuery(DETAILS, {
 		variables: { animeId: id },
 	})
@@ -38,6 +38,8 @@ const InfoCard = ({title, compa, id}) => {
 	//         </div>
 	//     );
 	// }
+
+	
     
 	const media = data.Media
 
@@ -202,15 +204,12 @@ const InfoCard = ({title, compa, id}) => {
 		}
 	}
 
+	const backColor = media.coverImage.color ? media.coverImage.color : "#D4EDF7"
 
+	// console.log("color ", backColor)
 	// const media = media2
-	console.log(media)
+	// console.table(media)
 
-
-
-
-    
-	console.log(media.Media)
     
 	const mainBox = {
         
@@ -236,7 +235,8 @@ const InfoCard = ({title, compa, id}) => {
 		padding:10,
 		backgroundColor: media.coverImage.color + "30",
 		// fontSize: isDesktopOrLaptop ? 16 : 14,
-		borderRadius:3
+		borderRadius:3,
+		width:"100%"
 	}
 
 	const cover = {
@@ -270,17 +270,21 @@ const InfoCard = ({title, compa, id}) => {
 	const Info = () => {return (
 		<>
 			<h1 className="title is-4">{title} </h1> 
-			<p>Compatibility: {compa.toFixed(2)*100}%</p>
+			{/* <p>Compatibility: {compa.toFixed(2)*100}%</p> */}
 			<p>{media.seasonYear}</p>
+			<p>{media.format}</p>
 			<p>Rating: {media.averageScore}%</p>
+			<div className="tags">
+				{media.genres.map(genre => <span className="tag" style={{backgroundColor: backColor + "90"}} key={genre}>{genre}</span>
+				)}
+			</div>
 		</> 
 	)}
 
 	const TextBox = () => {
 		return(
 			<div style={textBox}>
-				<p>{media.description}</p>
-				<p> <a href={"https://anilist.co/anime/" + id}>Ver en Anilist</a></p>
+				<p>{media.description.replace( /(<([^>]+)>)/ig, "")}</p>
 			</div>
 
 		)
@@ -297,8 +301,13 @@ const InfoCard = ({title, compa, id}) => {
 						<Info />
 					</div>
 				</div >
-				<div className="block">
+				<div className="block is-flex is-flex-direction-column  is-align-items-center ">
 					<TextBox />
+					<div className="buttons">
+						<a className="button is-link " href={"https://anilist.co/anime/" + id}>Ver en Anilist</a>
+						<button className="button is-info " onClick={() => handleRecBut(title)}>Ver Recomendaciones para este titulo</button>
+					</div>
+					
 				</div>
               
                 
@@ -310,7 +319,7 @@ const InfoCard = ({title, compa, id}) => {
 
 
 	return (
-		<div className="box" style={{backgroundColor: media.coverImage.color + "50"}} >
+		<div className="box" style={{backgroundColor: backColor + "50", width:"100%"}} >
 			<Mobile />
                   
 		</div>

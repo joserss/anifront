@@ -37,6 +37,7 @@ query ($animeId: Int!) {
     }
     format
     id
+    genres
     type
     season
     seasonYear
