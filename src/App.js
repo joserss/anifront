@@ -16,7 +16,9 @@ import React from "react"
 
 const App = () => {
 	const [ toggle, setToggle ] = useState(true)
-	const [getSearchResults, { called, loading, error, data }] = useLazyQuery(SEARCH)
+	const [getSearchResults, { called, loading, error, data ,variables}] = useLazyQuery(SEARCH, {
+		fetchPolicy: "network-only"
+	})
 	const [ query, setQuery ] = useState("")
 	const [ page, setPage ] = useState("Home")
 	const [searchResults, setSearchResults] = useState([])
@@ -43,6 +45,7 @@ const App = () => {
 		if (data) {
 			setSearchResults(data.Page.media)
 			setPage("Search")
+			console.log(variables)
 		}
 	}, [data])
 
@@ -51,10 +54,19 @@ const App = () => {
 		event.preventDefault()
 		console.log("button clicked")
 		// setToggle(false)
-		getSearchResults({ variables: {
-			mediaToSearch: query
-		} })
-		console.log(query)
+		if (variables.mediaToSearch == query) {
+			setSearchResults(data.Page.media)
+			setPage("Search")
+		} else {
+			getSearchResults({ variables: {
+				mediaToSearch: query
+			} })
+			console.log(query)
+
+		}
+
+
+
 	}
 
 	const handleClick = async (title) => {
@@ -66,10 +78,10 @@ const App = () => {
 
 		try {
 			const response = await searchService.search(searchObject)
+			setQuery(title)
 			setResults(response.data)
 			setToggle(false)
-			setPage("Rec")
-			setQuery(title)
+			setPage("Rec")			
 		} catch (exception) {
 			alert("Title not in library. Try a different one.")
 			setPage("Search")
@@ -185,13 +197,13 @@ const App = () => {
 					{(page === "Load") && <Loading />}
        
 					{(page === "Rec") && results.map(media => 
-						<InfoCard title={media["title.romaji"]} compa={media.compa} id={media["id"]} key={media["title.romaji"]}/>
+						<InfoCard title={media["title.romaji"]} compa={media.compa} id={media["mediaId"]} key={media["title.romaji"]} handleRecBut={(title) => handleClick(title)}/>
 					)}
         
 					<div className="container">
 						{ (page === "Search") && searchResults.map(media =>
           
-							<SearchItem item={media} onClick={(message) => handleClick(message)}  key={media.id}/>
+							<SearchItem item={media} onClick={(title) => handleClick(title)}  key={media.id}/>
           
 						)}
 					</div>
