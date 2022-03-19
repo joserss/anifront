@@ -1,7 +1,10 @@
 import axios from "axios"
-const baseUrl = "/api/search"
-//https://aniserv.onrender.com
-// 'http://localhost:5000/search'
+
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
+
+
+const baseUrl = `${API_ENDPOINT}` + "/api/search"
+
 
 
 const search = newObject => {
