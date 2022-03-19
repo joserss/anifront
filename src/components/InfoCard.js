@@ -305,7 +305,7 @@ const InfoCard = ({title, compa, id, handleRecBut}) => {
 					<TextBox />
 					<div className="buttons">
 						<a className="button is-link " href={"https://anilist.co/anime/" + id}>Ver en Anilist</a>
-						<button className="button is-info " onClick={() => handleRecBut(title)}>Ver Recomendaciones para este titulo</button>
+						<button className="button is-info " onClick={() => handleRecBut(title, id)}>Ver Recomendaciones para este titulo</button>
 					</div>
 					
 				</div>

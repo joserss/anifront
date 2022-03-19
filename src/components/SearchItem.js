@@ -20,7 +20,7 @@ const SearchItem = ({item, onClick}) => {
 	)}
     
 	return(
-		<div  className="box is-flex is-flex-direction-row m-2 p-2 is-align-items-center"   style={{backgroundColor: item.coverImage.color + "50"}} onClick={() => onClick(item.title.romaji)} >
+		<div  className="box is-flex is-flex-direction-row m-2 p-2 is-align-items-center"   style={{backgroundColor: item.coverImage.color + "50"}} onClick={() => onClick(item.title.romaji, item.id)} >
 			< div className="p-0 m-0"> 
 				<Image />
 			</div>

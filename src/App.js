@@ -69,11 +69,12 @@ const App = () => {
 
 	}
 
-	const handleClick = async (title) => {
+	const handleClick = async (title, mediaId) => {
 		setPage("Load")
 		// event.preventDefault()
 		const searchObject = {
 			title: title,
+			mediaId: mediaId
 		}
 
 		try {
@@ -197,13 +198,13 @@ const App = () => {
 					{(page === "Load") && <Loading />}
        
 					{(page === "Rec") && results.map(media => 
-						<InfoCard title={media["title.romaji"]} compa={media.compa} id={media["mediaId"]} key={media["title.romaji"]} handleRecBut={(title) => handleClick(title)}/>
+						<InfoCard title={media["title.romaji"]} compa={media.compa} id={media["mediaId"]} key={media["title.romaji"]} handleRecBut={(title, id) => handleClick(title, id)}/>
 					)}
         
 					<div className="container">
 						{ (page === "Search") && searchResults.map(media =>
           
-							<SearchItem item={media} onClick={(title) => handleClick(title)}  key={media.id}/>
+							<SearchItem item={media} onClick={  (title, id) => handleClick(title, id)   }  key={media.id}/>
           
 						)}
 					</div>
