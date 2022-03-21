@@ -12,7 +12,7 @@ import { useLazyQuery } from "@apollo/client"
 import { SEARCH } from "./graphql/queries"
 import SearchItem from "./components/SearchItem"
 import React from "react"
-
+const jsonData= require("./data/infoComplete_json.json")
 
 const App = () => {
 	const [ toggle, setToggle ] = useState(true)
@@ -40,7 +40,7 @@ const App = () => {
 			//   "compa": 0.8105891857
 			// }
 		])
-
+	console.log("Titles in the database:", jsonData.length )
 	useEffect(() => {
 		if (data) {
 			setSearchResults(data.Page.media)
@@ -69,7 +69,28 @@ const App = () => {
 
 	}
 
-	const handleClick = async (title, mediaId) => {
+	const handleClick = (title,mediaId) =>{
+		setPage("Load")
+		const idx = jsonData.findIndex(obj => obj.mediaId==mediaId)
+		if (idx >0) {
+			console.log(jsonData[idx])
+			setQuery(title)
+			setResults(jsonData[idx].Rec)
+			setToggle(false)
+			setPage("Rec")	
+			window.scrollTo({
+				top: 0,
+				behavior: "smooth",
+			})
+
+		} else {
+			alert("Title not in library. Try a different one.")
+			setPage("Search")
+		}
+		
+	}
+
+	const handleClick2 = async (title, mediaId) => {
 		setPage("Load")
 		// event.preventDefault()
 		const searchObject = {
@@ -198,7 +219,8 @@ const App = () => {
 					{(page === "Load") && <Loading />}
        
 					{(page === "Rec") && results.map(media => 
-						<InfoCard title={media["title.romaji"]} compa={media.compa} id={media["mediaId"]} key={media["title.romaji"]} handleRecBut={(title, id) => handleClick(title, id)}/>
+						// <InfoCard title={media["title.romaji"]} compa={media.compa} id={media["mediaId"]} key={media["title.romaji"]} handleRecBut={(title, id) => handleClick(title, id)}/>
+						<InfoCard id={media} key={media} handleRecBut={(title, id) => handleClick(title, id)}/>
 					)}
         
 					<div className="container">

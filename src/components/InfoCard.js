@@ -6,7 +6,7 @@ import { DETAILS } from "../graphql/queries"
 import { useMediaQuery } from "react-responsive"
 import "bulma/css/bulma.min.css"
 
-const InfoCard = ({title, compa, id, handleRecBut}) => {
+const InfoCard = ({id, handleRecBut}) => {
 	const { loading, error, data } = useQuery(DETAILS, {
 		variables: { animeId: id },
 	})
@@ -18,12 +18,12 @@ const InfoCard = ({title, compa, id, handleRecBut}) => {
 
 
 
-	console.log(title, compa,id)
+	// console.log(title,id)
 
 	if (loading) {
 		return (
-			<div className="box">
-				<h1 className="title is-4">{title} </h1>
+			<div className="box" style={{backgroundColor: "#D4EDF7" + "50", width:"100%"}}>
+				{/* <h1 className="title is-4">{title} </h1> */}
 				<progress className="progress is-small is-primary" max="100">15%</progress>
 			</div>
 		)
@@ -203,7 +203,7 @@ const InfoCard = ({title, compa, id, handleRecBut}) => {
 			]
 		}
 	}
-
+	const title = media.title.romaji
 	const backColor = media.coverImage.color ? media.coverImage.color : "#D4EDF7"
 
 	// console.log("color ", backColor)
