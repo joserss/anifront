@@ -11,6 +11,7 @@ import NavBar from "./components/NavBar"
 import { useLazyQuery } from "@apollo/client"
 import { SEARCH } from "./graphql/queries"
 import SearchItem from "./components/SearchItem"
+import SubHeader from "./components/SubHeader"
 import React from "react"
 const jsonData= require("./data/infoComplete_json.json")
 
@@ -125,18 +126,18 @@ const App = () => {
     
 	}
 
-	const SubHeader = ({title}) => { return(
-		<div className="is-flex is-justify-content-space-around is-align-items-center" >
-			<p>
-        Recommendations for <strong>{title}</strong>
-			</p>
-			<button className="button is-warning" onClick={handleReset}>Reset</button>
+	// const SubHeader = ({title}) => { return(
+	// 	<div className="is-flex is-justify-content-space-around is-align-items-center is-flex-wrap-wrap " >
+	// 		<p className="py-2">
+	// 			Recommendations for <strong>{title}</strong>
+	// 		</p>
+	// 		<button className="button is-warning" onClick={handleReset}>Reset</button>
     
-		</div>
+	// 	</div>
 
 
 
-	)}
+	// )}
 
 	const Loading = () => <progress className="progress is-small is-primary" max="100">15%</progress>
 
@@ -205,15 +206,16 @@ const App = () => {
 
 
 	return (
-		<div className="is-flex is-flex-direction-column is-justify-content-space-around" style={{minHeight: "95vh"}}> 
-			<div style={{"flex": "1"}}>
-				<NavBar />
-				<div  className="container pb-2">
+		<div className="py-1 is-flex is-flex-direction-column is-justify-content-space-around" style={{minHeight: "100vh" }}> 
+			<NavBar />
+			<div className="p-1 is-flex is-flex-direction-column  is-justify-content-center" style={{"flex": "1", backgroundColor:"#ebffea"}}>
+				
+				<div  className="container pb-2 is-flex  is-flex-direction-column is-justify-content-center  " style={{"flex": "0 1 auto", width:"100%"}}>
 					{toggle && <Search query={query} handleQuery={handleQuery} onClick = {handleSearch}/> }
-					{!toggle && <SubHeader title={query}/>}
+					{!toggle && <SubHeader title={query} handleReset={handleReset} />}
         
 				</div>
-				<div  className="container px-2 is-align-items-center is-flex is-flex-direction-column">
+				<div  className="container px-2 is-align-items-center is-flex is-flex-direction-column" style={{"flex": "1"}}>
 
 					{content()}
 					{(page === "Load") && <Loading />}

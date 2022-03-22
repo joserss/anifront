@@ -302,10 +302,10 @@ const InfoCard = ({id, handleRecBut}) => {
 					</div>
 				</div >
 				<div className="block is-flex is-flex-direction-column  is-align-items-center ">
-					<TextBox />
-					<div className="buttons">
-						<a className="button is-link " href={"https://anilist.co/anime/" + id}>Ver en Anilist</a>
-						<button className="button is-info " onClick={() => handleRecBut(title, id)}>Ver Recomendaciones para este titulo</button>
+					{media.description ? <TextBox /> : null}
+					<div className="buttons  is-flex  is-justify-content-center">
+						<a className="button is-link " href={"https://anilist.co/anime/" + id}>See more on Anilist</a>
+						<button className="button is-info " onClick={() => handleRecBut(title, id)}>See recommendations for this title</button>
 					</div>
 					
 				</div>
