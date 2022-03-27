@@ -15,6 +15,58 @@ import SubHeader from "./components/SubHeader"
 import React from "react"
 const jsonData= require("./data/infoComplete_json.json")
 
+
+
+
+const HomePage = ({query, handleQuery, handleSearch, page}) => {
+	return(
+		<div  className="container pb-2 is-flex  is-flex-direction-column is-justify-content-center  " style={{"flex": "0 1 auto", width:"100%"}}>			
+			<Search query={query} handleQuery={handleQuery} onClick = {handleSearch}/> 
+			{(page === "Load") && <Loading />}
+		</div>
+	)
+}
+
+
+const SearchResults = ({query, handleQuery, handleSearch, handleClick, searchResults}) => {
+	return (
+		<>
+			<div  className="container pb-2 is-flex  is-flex-direction-column is-justify-content-center  " style={{"flex": "0 1 auto", width:"100%"}}>
+				<Search query={query} handleQuery={handleQuery} onClick = {handleSearch}/> 
+			</div>
+			<div  className="container px-2 is-align-items-center is-flex is-flex-direction-column" style={{"flex": "1",  width:"100%"}}>
+				{searchResults.map(media =>          
+					<SearchItem item={media} onClick={  (title, id) => handleClick(title, id)   }  key={media.id}/>
+				)}
+			</div>
+		</>
+
+	)
+}
+
+const RecResults = ({query, handleReset, results, handleClick}) => {
+	return (
+		<>
+			<div  className="container pb-2 is-flex  is-flex-direction-column is-justify-content-center  " style={{"flex": "0 1 auto", width:"100%"}}>		
+				<SubHeader title={query} handleReset={handleReset} />
+			</div>
+			<div  className="container px-2 is-align-items-center is-flex is-flex-direction-column" style={{"flex": "1",  width:"100%"}}>
+				{results.map(media => 
+				// <InfoCard title={media["title.romaji"]} compa={media.compa} id={media["mediaId"]} key={media["title.romaji"]} handleRecBut={(title, id) => handleClick(title, id)}/>
+					<InfoCard id={media} key={media} handleRecBut={(title, id) => handleClick(title, id)}/>
+				)}
+				<button className="button is-warning" onClick={handleReset}>Reset</button>
+			</div>
+		</>
+
+	)
+}
+
+const Loading = () => <progress className="progress is-small is-primary" max="100">15%</progress>
+
+
+
+
 const App = () => {
 	const [ toggle, setToggle ] = useState(true)
 	const [getSearchResults, { called, loading, error, data ,variables}] = useLazyQuery(SEARCH, {
@@ -42,10 +94,14 @@ const App = () => {
 			// }
 		])
 	console.log("Titles in the database:", jsonData.length )
+
 	useEffect(() => {
 		if (data) {
 			setSearchResults(data.Page.media)
-			setPage("Search")
+			setTimeout(() => {
+				setPage("Search")
+			}, 1)
+			
 			console.log(variables)
 		}
 	}, [data])
@@ -126,20 +182,6 @@ const App = () => {
     
 	}
 
-	// const SubHeader = ({title}) => { return(
-	// 	<div className="is-flex is-justify-content-space-around is-align-items-center is-flex-wrap-wrap " >
-	// 		<p className="py-2">
-	// 			Recommendations for <strong>{title}</strong>
-	// 		</p>
-	// 		<button className="button is-warning" onClick={handleReset}>Reset</button>
-    
-	// 	</div>
-
-
-
-	// )}
-
-	const Loading = () => <progress className="progress is-small is-primary" max="100">15%</progress>
 
 
 
@@ -191,15 +233,16 @@ const App = () => {
 	const content = () => {
 		if (page === "Home") {
 			console.log("home")
-			return null
+			return <HomePage query={query} handleQuery={handleQuery} handleSearch = {handleSearch} page={page} />
 		} else if (page === "Search") {
 			console.log("search")
-			return null
+			return <SearchResults query={query} handleQuery={handleQuery} handleSearch = {handleSearch} handleClick={handleClick} searchResults={searchResults} />
 		} else if (page === "Rec") {
 			console.log("rec")
-			return null
+			return <RecResults query={query} handleReset = {handleReset} handleClick={handleClick} results={results} />
 		}
 	}
+
 
 
 
@@ -209,8 +252,9 @@ const App = () => {
 		<div className="py-1 is-flex is-flex-direction-column is-justify-content-space-around" style={{minHeight: "100vh" }}> 
 			<NavBar />
 			<div className="p-1 is-flex is-flex-direction-column  is-justify-content-center" style={{"flex": "1", backgroundColor:"#ebffea"}}>
+				{content()}
 				
-				<div  className="container pb-2 is-flex  is-flex-direction-column is-justify-content-center  " style={{"flex": "0 1 auto", width:"100%"}}>
+				{/* <div  className="container pb-2 is-flex  is-flex-direction-column is-justify-content-center  " style={{"flex": "0 1 auto", width:"100%"}}>
 					{toggle && <Search query={query} handleQuery={handleQuery} onClick = {handleSearch}/> }
 					{!toggle && <SubHeader title={query} handleReset={handleReset} />}
         
@@ -233,7 +277,7 @@ const App = () => {
 						)}
 					</div>
 					{(page === "Rec") && <button className="button is-warning" onClick={handleReset}>Reset</button>}
-				</div>
+				</div> */}
 			</div>
       
 			<Footer />
