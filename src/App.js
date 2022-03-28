@@ -13,6 +13,7 @@ import { SEARCH } from "./graphql/queries"
 import SearchItem from "./components/SearchItem"
 import SubHeader from "./components/SubHeader"
 import React from "react"
+import AboutPage from "./components/About"
 const jsonData= require("./data/infoComplete_json.json")
 
 
@@ -22,7 +23,7 @@ const HomePage = ({query, handleQuery, handleSearch, page}) => {
 	return(
 		<div  className="container pb-2 is-flex  is-flex-direction-column is-justify-content-center  " style={{"flex": "0 1 auto", width:"100%"}}>			
 			<Search query={query} handleQuery={handleQuery} onClick = {handleSearch}/> 
-			{(page === "Load") && <Loading />}
+			{(page == "Load") && <Loading />}
 		</div>
 	)
 }
@@ -240,6 +241,9 @@ const App = () => {
 		} else if (page === "Rec") {
 			console.log("rec")
 			return <RecResults query={query} handleReset = {handleReset} handleClick={handleClick} results={results} />
+		} else if (page === "About") {
+			console.log("about")
+			return <AboutPage handleReset={handleReset} />
 		}
 	}
 
@@ -250,7 +254,7 @@ const App = () => {
 
 	return (
 		<div className="py-1 is-flex is-flex-direction-column is-justify-content-space-around" style={{minHeight: "100vh" }}> 
-			<NavBar />
+			<NavBar setPage={setPage} />
 			<div className="p-1 is-flex is-flex-direction-column  is-justify-content-center" style={{"flex": "1", backgroundColor:"#ebffea"}}>
 				{content()}
 				
