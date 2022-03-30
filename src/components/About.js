@@ -9,7 +9,7 @@ const AboutPage = ({handleReset}) => {
 				<div>
 					Hagumi is an anime recommendation sistem. <br/>
 				</div>
-				<div> 
+				<div className="has-text-centered"> 
 						More information can be found in the <a href="https://github.com/joserss/anime-recommendation">project&apos;s repository.</a>				
 				</div>
 			</div>

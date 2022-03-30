@@ -30,13 +30,17 @@ const HomePage = ({query, handleQuery, handleSearch, page}) => {
 
 
 const SearchResults = ({query, handleQuery, handleSearch, handleClick, searchResults}) => {
+	const [ toggleL, setToggleL ] = useState(true)
+	setTimeout(() => {
+		setToggleL(false)
+	}, 2000)
 	return (
 		<>
 			<div  className="container pb-2 is-flex  is-flex-direction-column is-justify-content-center  " style={{"flex": "0 1 auto", width:"100%"}}>
 				<Search query={query} handleQuery={handleQuery} onClick = {handleSearch}/> 
 			</div>
 			<div  className="container px-2 is-align-items-center is-flex is-flex-direction-column" style={{"flex": "1",  width:"100%"}}>
-				{searchResults.map(media =>          
+				{toggleL ? <Loading /> : searchResults.map(media =>          
 					<SearchItem item={media} onClick={  (title, id) => handleClick(title, id)   }  key={media.id}/>
 				)}
 			</div>
@@ -99,16 +103,21 @@ const App = () => {
 	useEffect(() => {
 		if (data) {
 			setSearchResults(data.Page.media)
-			setTimeout(() => {
-				setPage("Search")
-			}, 1)
+			// setPage("Search")
+			// setTimeout(() => {
+			// 	setPage("Search")
+			// }, 1)
 			
 			console.log(variables)
 		}
 	}, [data])
 
 	const handleSearch = (event) => {
-		setPage("Load")
+		setPage("Search")
+		// setTimeout(() => {
+		// 	setPage("Search")
+		// }, 3000)
+		// setPage("Load")
 		event.preventDefault()
 		console.log("button clicked")
 		// setToggle(false)
@@ -128,7 +137,7 @@ const App = () => {
 	}
 
 	const handleClick = (title,mediaId) =>{
-		setPage("Load")
+		// setPage("Load")
 		const idx = jsonData.findIndex(obj => obj.mediaId==mediaId)
 		if (idx >0) {
 			console.log(jsonData[idx])
