@@ -13,7 +13,7 @@ const InfoCard = ({id, handleRecBut}) => {
 	const isDesktopOrLaptop = useMediaQuery({
 		query: "(min-width: 1224px)"
 	})
-	console.log(isDesktopOrLaptop)
+	// console.log(isDesktopOrLaptop)
 
 
 

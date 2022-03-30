@@ -20,6 +20,7 @@ const jsonData= require("./data/infoComplete_json.json")
 
 
 const HomePage = ({query, handleQuery, handleSearch, page}) => {
+	console.log("Titles in the database:", jsonData.length )
 	return(
 		<div  className="container pb-2 is-flex  is-flex-direction-column is-justify-content-center  " style={{"flex": "0 1 auto", width:"100%"}}>			
 			<Search query={query} handleQuery={handleQuery} onClick = {handleSearch}/> 
@@ -98,7 +99,7 @@ const App = () => {
 			//   "compa": 0.8105891857
 			// }
 		])
-	console.log("Titles in the database:", jsonData.length )
+	
 
 	useEffect(() => {
 		if (data) {
