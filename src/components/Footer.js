@@ -16,7 +16,7 @@ const Footer = () => { return (
 					{/* <div className="mx-1"> 
 						Styled with <a  href="https://bulma.io">Bulma</a>. 
 					</div> */}
-					<div className="mx-1">Powered by <a  href="https://anilist.co">Anilist</a>. 
+					<div className="mx-1">Powered by <a  href="https://anilist.co">Anilist.</a>. 
 					</div>
 				</div>
 			</div>
