@@ -60,6 +60,7 @@ const App = () => {
 		fetchPolicy: "network-only"
 	})
 	const [ query, setQuery ] = useState("")
+	const [ query_object, set_query_object ] = useState({})
 	const [ page, setPage ] = useState("Home")
 	const [searchResults, setSearchResults] = useState([])
 	const [results, setResults] = useState(
@@ -124,6 +125,7 @@ const App = () => {
 		if (idx >0) {
 			console.log(jsonData[idx])
 			setQuery(title)
+			set_query_object(jsonData[idx])
 			setResults(jsonData[idx].Rec)
 			setToggle(false)
 			setPage("Rec")	
@@ -139,26 +141,26 @@ const App = () => {
 		
 	}
 
-	const handleClick2 = async (title, mediaId) => {
-		setPage("Load")
-		// event.preventDefault()
-		const searchObject = {
-			title: title,
-			mediaId: mediaId
-		}
+	// const handleClick2 = async (title, mediaId) => {
+	// 	setPage("Load")
+	// 	// event.preventDefault()
+	// 	const searchObject = {
+	// 		title: title,
+	// 		mediaId: mediaId
+	// 	}
 
-		try {
-			const response = await searchService.search(searchObject)
-			setQuery(title)
-			setResults(response.data)
-			setToggle(false)
-			setPage("Rec")			
-		} catch (exception) {
-			alert("Title not in library. Try a different one.")
-			setPage("Search")
-			// setQuery("")
-		}
-	}
+	// 	try {
+	// 		const response = await searchService.search(searchObject)
+	// 		setQuery(title)
+	// 		setResults(response.data)
+	// 		setToggle(false)
+	// 		setPage("Rec")			
+	// 	} catch (exception) {
+	// 		alert("Title not in library. Try a different one.")
+	// 		setPage("Search")
+	// 		// setQuery("")
+	// 	}
+	// }
   
 	const handleQuery = (event) => {
 		setQuery(event.target.value)
@@ -168,6 +170,7 @@ const App = () => {
 		setPage("Home")
 		setSearchResults([])
 		setQuery("")
+		set_query_object({})
 		setToggle(true)
 		setResults([])
     
@@ -231,7 +234,7 @@ const App = () => {
 			return <SearchResults query={query} handleQuery={handleQuery} handleSearch = {handleSearch} handleClick={handleClick} searchResults={searchResults} />
 		} else if (page === "Rec") {
 			console.log("rec")
-			return <RecResults query={query} handleReset = {handleReset} handleClick={handleClick} results={results} />
+			return <RecResults query_object = {query_object} handleReset = {handleReset} handleClick={handleClick} results={results} />
 		} else if (page === "About") {
 			console.log("about")
 			return <AboutPage handleReset={handleReset} />
